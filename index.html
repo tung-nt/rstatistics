@@ -1,22 +1,4 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html ng-app="rs">
     <head>
         <meta charset="utf-8" />
@@ -42,16 +24,18 @@
             	<tr>
             		<td width="30%" style="vertical-align:top">
 	            		<span >{{number.name}}</span>
-	            		<div class="row">
-	            			<div class="col-lg-12"><button class="btn btn-success btn-lg form-control" ng-click="nextNumber({name:0,color:'green'})">0</button></div>
-	            		</div>
-	            		<div class="row">
-	            			<div class="col-lg-4" ng-repeat="number in numbers">
-	            				<button class="btn btn-lg number" ng-class="{'btn-danger':number.color=='red', 'btn-black':number.color=='black'}"
+	            		<table>
+	            			<tr>
+	            				<td colspan="3"><button class="btn btn-success btn-lg form-control" ng-click="nextNumber({name:0,color:'green'})">0</button></td>
+	            			</tr>
+	            			<tr ng-repeat="group in numbers">
+	            				<td ng-repeat="number in group">
+	            					<button class="btn btn-lg number" ng-class="{'btn-danger':number.color=='red', 'btn-black':number.color=='black'}"
 	            					ng-click="nextNumber(number)"
-	            				>{{number.name}}</button>
-	            			</div>
-	            		</div>
+	            					>{{number.name}}</button>
+	            				</td>
+	            			</tr>
+	            		</table>
             		</td>
 	            	<td width="30%" style="vertical-align:top">
 	            		<div class="history">
@@ -60,82 +44,64 @@
 	            		</div>
 	            		<button class="btn btn-lg btn-warning" ng-click="undo()">Undo</button>
 	            		<button class="btn btn-lg btn-primary" ng-click="reset()">Reset</button>
-	            		<div class="clearfix"></div>
-	            		<div>Next: </div>
-	            		<div>&nbsp;Hot: </div>
-	            		<div>Cold:</div>
 					</td>            	
 	            	<td width="30%" style="vertical-align:top">
 	            		<table class="table">
 	            			<tr>
+	            				<td><span class="btn btn-danger form-control">Red</span></td>
+	            				<td>{{red}}</td>
+		            			<td><span class="btn btn-black form-control">Black</span></td>
+		            			<td>{{black}}</td>
 	            				<td><span class="btn btn-success form-control">Zero</span></td>
 	            				<td>{{zero}}</td>
 	            			</tr>
-	            			<tr>
-	            				<td><span class="btn btn-danger form-control">Red</span></td>
-	            				<td>{{red}}</td>
-	            			</tr>
-		            		<tr>
-		            			<td><span class="btn btn-black form-control">Black</span></td>
-		            			<td>{{black}}</td>
-		            		</tr>
 		            		<tr>
 		            			<td><span class="">1-18</span></td>
 		            			<td>{{from1to18}}</td>
-		            		</tr>
-		            		<tr>
 		            			<td><span class="">19-36</span></td>
 		            			<td>{{from19to36}}</td>
+		            			<td></td><td></td>
 		            		</tr>
 		            		<tr>
 		            			<td><span class="">Odd</span></td>
 		            			<td>{{odd}}</td>
-		            		</tr>
-		            		<tr>
 		            			<td><span class="">Even</span></td>
 		            			<td>{{even}}</td>
+		            			<td></td><td></td>
 		            		</tr>
 		            		<tr>
 		            			<td><span class="">1-12</span></td>
 		            			<td>{{from1to12}}</td>
-		            		</tr>
-		            		<tr>
 		            			<td><span class="">13-24</span></td>
 		            			<td>{{from13to24}}</td>
-		            		</tr>
-		            		<tr>
 		            			<td><span class="">25-36</span></td>
 		            			<td>{{from25to36}}</td>
 		            		</tr>
 		            		<tr>
 		            			<td><span class="">1-34</span></td>
 		            			<td>{{from1to34}}</td>
-		            		</tr>
-		            		<tr>
 		            			<td><span class="">2-35</span></td>
 		            			<td>{{from2to35}}</td>
-		            		</tr>
-		            		<tr>
 		            			<td><span class="">3-36</span></td>
 		            			<td>{{from3to36}}</td>
 		            		</tr>
 		            		<tr>
 		            			<td><span class="btn form-control btn-success">Zero Spiel</span></td>
 		            			<td>{{zeroSpiel}}</td>
-		            		</tr>
-		            		<tr>
-		            			<td><span class="btn form-control btn-danger">Big</span></td>
-		            			<td>{{bigSeries}}</td>
-		            		</tr>
-		            		<tr>
-		            			<td><span class="btn form-control btn-warning">Small Series</span></td>
-		            			<td>{{smallSeries}}</td>
-		            		</tr>
-		            		<tr>
 		            			<td><span class="btn form-control btn-primary">Orphans</span></td>
 		            			<td>{{orphans}}</td>
+		            			<td></td><td></td>
+		            		</tr>
+		            		<tr>
+		            			<td><span class="btn form-control btn-danger">Big Series</span></td>
+		            			<td>{{bigSeries}}</td>
+		            			<td><span class="btn form-control btn-warning">Small Series</span></td>
+		            			<td>{{smallSeries}}</td>
+		            			<td></td><td></td>
 		            		</tr>
 	            		</table>
+	            		<div>Next: </div>
+	            		<div>&nbsp;Hot Numbers: </div>
 	            	</td>
             	</tr>
         	</table>

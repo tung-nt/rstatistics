@@ -1,17 +1,17 @@
 angular.module('rs', [])
 	.controller('HomeController', function($scope) {
-		$scope.numbers = [{name:1,color:'red'},		{name:2,color:'black'},	{name:3,color:'red'},
-		                  {name:4,color:'black'},	{name:5,color:'red'},	{name:6,color:'black'},
-		                  {name:7,color:'red'},		{name:8,color:'black'},	{name:9,color:'red'},
-		                  {name:10,color:'black'},	{name:11,color:'black'},{name:12,color:'red'},
-		                  {name:13,color:'black'},	{name:14,color:'red'},	{name:15,color:'black'},
-		                  {name:16,color:'red'},	{name:17,color:'black'},{name:18,color:'red'},
-		                  {name:19,color:'red'},	{name:20,color:'black'},{name:21,color:'red'},
-		                  {name:22,color:'black'},	{name:23,color:'red'},	{name:24,color:'black'},
-		                  {name:25,color:'red'},	{name:26,color:'black'},{name:27,color:'red'},
-		                  {name:28,color:'black'},	{name:29,color:'black'},{name:30,color:'red'},
-		                  {name:31,color:'black'},	{name:32,color:'red'},	{name:33,color:'black'},
-		                  {name:34,color:'red'},	{name:35,color:'black'},{name:36,color:'red'},
+		$scope.numbers = [[{name:1,color:'red'},		{name:2,color:'black'},	{name:3,color:'red'}],
+		                  [{name:4,color:'black'},	{name:5,color:'red'},	{name:6,color:'black'}],
+		                  [{name:7,color:'red'},		{name:8,color:'black'},	{name:9,color:'red'}],
+		                  [{name:10,color:'black'},	{name:11,color:'black'},{name:12,color:'red'}],
+		                  [{name:13,color:'black'},	{name:14,color:'red'},	{name:15,color:'black'}],
+		                  [{name:16,color:'red'},	{name:17,color:'black'},{name:18,color:'red'}],
+		                  [{name:19,color:'red'},	{name:20,color:'black'},{name:21,color:'red'}],
+		                  [{name:22,color:'black'},	{name:23,color:'red'},	{name:24,color:'black'}],
+		                  [{name:25,color:'red'},	{name:26,color:'black'},{name:27,color:'red'}],
+		                  [{name:28,color:'black'},	{name:29,color:'black'},{name:30,color:'red'}],
+		                  [{name:31,color:'black'},	{name:32,color:'red'},	{name:33,color:'black'}],
+		                  [{name:34,color:'red'},	{name:35,color:'black'},{name:36,color:'red'}],
 		                  ];
 		
 		$scope.undo = function(number){

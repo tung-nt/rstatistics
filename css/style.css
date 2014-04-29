@@ -47,21 +47,20 @@ body {
 }
 
 /* Portrait layout (default) */
-.app {
-    top:0;
-    text-align:center;
-}
 .numbers {
 	margin: auto;
 }
 .history {
-	height: 500px;
+	max-height: 300px;
 	overflow-y: scroll;
+}
+.history .btn {
+	margin: 2px 1px;
 }
 .number {
 	width: 100px;
-	height: 80px;
-	margin: 5px 0 0 5px;
+	height: 60px;
+	margin: 5px 5px 0 0;
 }
 
 h1 {
@@ -110,10 +109,13 @@ h1 {
 }
 
 .btn-black {
-	background-color: #181f21;
+	background-color: #2B3030;
 	color: #fff;
 }
 .btn-black:hover, .btn-black:focus, .btn-black:active {
 	background-color: #000;
 	color: #fff;
+}
+.reset {
+	margin: 10px 0;
 }

@@ -1,5 +1,5 @@
 angular.module('rs', [])
-	.controller('HomeController', function($scope) {
+	.controller('HomeController', ['$scope', function($scope) {
 		$scope.numbers = [[{name:1,color:'red'},		{name:2,color:'black'},	{name:3,color:'red'}],
 		                  [{name:4,color:'black'},	{name:5,color:'red'},	{name:6,color:'black'}],
 		                  [{name:7,color:'red'},		{name:8,color:'black'},	{name:9,color:'red'}],
@@ -16,9 +16,15 @@ angular.module('rs', [])
 		
 		$scope.undo = function(number){
 			$scope.histories.shift();
+			var history = $scope.histories.reverse();
+			$scope.reset();
+			angular.forEach(history, function(n, k){
+				$scope.nextNumber(n);
+			});
 		};
 		$scope.reset = function(number){
 			$scope.histories = [];
+			$scope.counts = [];
 			$scope.zero 		= 0;
 			$scope.black 		= 0;
 			$scope.red 			= 0;
@@ -32,11 +38,60 @@ angular.module('rs', [])
 			$scope.from1to34 	= 0;
 			$scope.from2to35 	= 0;
 			$scope.from3to36 	= 0;
+			$scope.x0x 	= 0;
+			$scope.x1x 	= 0;
+			$scope.x2x 	= 0;
+			$scope.x3x 	= 0;
+			$scope.zeroSpiel 	= 0;
+			$scope.smallSeries 	= 0;
+			$scope.orphans 		= 0;
+			$scope.hotZeroSpiel 	= 0;
+			$scope.hotSmallSeries 	= 0;
+			$scope.hotOrphans 		= 0;
 		};
 		$scope.reset();
 		
+		$scope.numberColor= function(index, number){
+			if(index==0 || number.name == $scope.histories[0].name){
+				return 'btn-default';
+			}
+			else if(number.color=='green'){
+				return 'btn-success';
+			}
+			else if(number.color=='red'){
+				return 'btn-danger';
+			}
+			else if(number.color=='black'){
+				return 'btn-black';
+			}
+		};
+		
+		$scope.getNexts = function(){
+			var next;
+			angular.forEach($scope.counts, function(n, k){
+				if(n.name == $scope.histories[0].name) { 
+					next = n.next;
+					return;
+				}
+			});
+			return next;
+		};
+		
 		$scope.nextNumber = function(number){
+			var exist = false;
+			angular.forEach($scope.counts, function(n, k){
+				if(n.name == number.name) { 
+					n.count++;
+					exist=true;
+				}
+				if($scope.histories.length > 0 && n.name == $scope.histories[0].name && n.next.indexOf(number.name) == -1){
+					n.next.unshift(number.name);
+				}
+			});
+			if(!exist) $scope.counts.push({name: number.name, count: 1, next:[]});
+			
 			$scope.histories.unshift(number);
+			
 			if(number.name == 0){
 				$scope.zero = 0;
 				$scope.black 		++;
@@ -51,6 +106,14 @@ angular.module('rs', [])
 				$scope.from1to34 	++;
 				$scope.from2to35 	++;
 				$scope.from3to36 	++;
+				$scope.x0x 	++;
+				$scope.x1x 	++;
+				$scope.x2x 	++;
+				$scope.x3x 	++;
+				$scope.zeroSpiel 	= 0;
+				$scope.smallSeries 	++;
+				$scope.orphans 		++;
+				$scope.hotZeroSpiel ++;
 				return;
 			}
 			else{
@@ -115,5 +178,54 @@ angular.module('rs', [])
 				$scope.from2to35 	++;
 				$scope.from3to36 	= 0;
 			}
+			
+			if([12,35,3,26,0,32,15].indexOf(number.name) > -1){
+				$scope.hotZeroSpiel ++;
+				$scope.zeroSpiel 	= 0;
+				$scope.smallSeries 	++;
+				$scope.orphans 		++;
+			}
+			else if([33,16,24,5,10,23,8,30,11,36,13,27].indexOf(number.name) > -1){
+				$scope.hotSmallSeries 	++;
+				$scope.zeroSpiel 	++;
+				$scope.smallSeries 	= 0;
+				$scope.orphans 		++;
+			}
+			else if([9,31,14,20,1,6,34,17].indexOf(number.name) > -1){
+				$scope.hotOrphans 	++;
+				$scope.zeroSpiel 	++;
+				$scope.smallSeries 	++;
+				$scope.orphans 		= 0;
+			}
+			else {
+				$scope.zeroSpiel 	++;
+				$scope.smallSeries 	++;
+				$scope.orphans 		++;
+			}
+			
+			if(number.name < 10){
+				$scope.x0x 	= 0;
+				$scope.x1x 	++;
+				$scope.x2x 	++;
+				$scope.x3x 	++;
+			}
+			else if(number.name < 20){
+				$scope.x0x 	++;
+				$scope.x1x 	= 0;
+				$scope.x2x 	++;
+				$scope.x3x 	++;
+			}
+			else if(number.name < 30){
+				$scope.x0x 	++;
+				$scope.x1x 	++;
+				$scope.x2x 	= 0;
+				$scope.x3x 	++;
+			}
+			else {
+				$scope.x0x 	++;
+				$scope.x1x 	++;
+				$scope.x2x 	++;
+				$scope.x3x 	= 0;
+			}
 		};
-	});
+	}]);

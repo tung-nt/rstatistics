@@ -3,30 +3,28 @@
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <title>Roulette Statistics</title>
+		<meta name="description" content="The best Roulette tool for analystics, hot numbers, hot series, cold number, cold period, cold series. Help you to decide what to invest.">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <script type="text/javascript" src="phonegap.js"></script>
         <script type="text/javascript" src="js/angular.min.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
     </head>
     <body>
         <div class="app" ng-controller="HomeController">
             <!-- <h1>Table #1</h1> -->
-            <table class="table">
-            	<tr>
+            <table class="table table-responsive">
+            	<!-- <tr>
             		<th></th>
             		<th class="text-center"><h4>History</h4></th>
             		<th class="text-center"><h4><span class="text-danger">Not</span> appeared (times)</h4></th>
-            	</tr>
+            	</tr> -->
             	<tr>
-            		<td width="30%" style="vertical-align:top">
+            		<td>
 	            		<span >{{number.name}}</span>
 	            		<table>
 	            			<tr>
-	            				<td colspan="3"><button class="btn btn-success btn-lg form-control" ng-click="nextNumber({name:0,color:'green'})">0</button></td>
+	            				<td colspan="3"><button style="width: 100%;" class="btn number btn-success btn-lg" ng-click="nextNumber({name:0,color:'green'})">0</button></td>
 	            			</tr>
 	            			<tr ng-repeat="group in numbers">
 	            				<td ng-repeat="number in group">
@@ -37,71 +35,97 @@
 	            			</tr>
 	            		</table>
             		</td>
-	            	<td width="30%" style="vertical-align:top">
-	            		<div class="history">
-		            		<h4 ng-repeat="number in histories track by $index" ng-class="{'text-danger':number.color=='red', 'text-success':number.color=='green'}"
-		            			>{{number.name}}</h4>
-	            		</div>
-	            		<button class="btn btn-lg btn-warning" ng-click="undo()">Undo</button>
-	            		<button class="btn btn-lg btn-primary" ng-click="reset()">Reset</button>
-					</td>            	
-	            	<td width="30%" style="vertical-align:top">
+	            	<td>
+						<div class="history">
+							<span class="btn" ng-repeat="number in histories track by $index" 
+									ng-class="numberColor($index, number)"
+								>{{number.name}}</span>
+						</div>
+						<div class="clearfix reset">
+							<button class="btn btn-lg btn-warning" ng-click="undo()">Undo</button>
+				            <button class="btn btn-lg btn-primary" ng-click="reset()">Reset</button>
+						</div>
 	            		<table class="table">
+							<tr class="danger">
+								<td><span class="pull-right">Next</span></td><td colspan="7"><span ng-repeat="n in getNexts()">{{n}}&nbsp;</span></td>
+							</tr>
+							<tr>
+								<td><span class="pull-right">Hot</span></td>
+								<td colspan="7">
+									<span style="margin: 0 10px;" ng-repeat="n in counts | orderBy:'count':true | limitTo:6">
+										<span>{{n.name}}</span><span class="small text-danger">[{{n.count}}]</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+		            			<td><span class="pull-right">Zero</span></td>
+		            			<td>{{hotZeroSpiel}}</td>
+		            			<td><span class="pull-right">Small</span></td>
+		            			<td>{{hotSmallSeries}}</td>
+								<td><span class="pull-right">Orphans</span></td>
+		            			<td>{{hotOrphans}}</td>
+		            			<td></td><td></td>
+		            		</tr>
+							<tr class="info">
+	            				<td colspan="8" class="text-center">Cold numbers</td>
+	            			</tr>
 	            			<tr>
-	            				<td><span class="btn btn-danger form-control">Red</span></td>
-	            				<td>{{red}}</td>
-		            			<td><span class="btn btn-black form-control">Black</span></td>
-		            			<td>{{black}}</td>
-	            				<td><span class="btn btn-success form-control">Zero</span></td>
-	            				<td>{{zero}}</td>
+	            				<td><span class="pull-right">Red</span></td>
+	            				<td ng-class="{'btn-danger':red > 10}">{{red}}</td>
+		            			<td><span class="pull-right">Black</span></td>
+		            			<td ng-class="{'btn-danger':black > 10}">{{black}}</td>
+	            				<td><span class="pull-right">Zero</span></td>
+	            				<td ng-class="{'btn-danger':zero > 25}">{{zero}}</td>
+	            				<td></td><td></td>
 	            			</tr>
 		            		<tr>
-		            			<td><span class="">1-18</span></td>
-		            			<td>{{from1to18}}</td>
-		            			<td><span class="">19-36</span></td>
-		            			<td>{{from19to36}}</td>
+		            			<td><span class="pull-right">1-18</span></td>
+		            			<td ng-class="{'btn-danger':from1to18 > 10}">{{from1to18}}</td>
+		            			<td><span class="pull-right">19-36</span></td>
+		            			<td ng-class="{'btn-danger':from19to36 > 10}">{{from19to36}}</td>
+								<td><span class="pull-right">Odd</span></td>
+		            			<td ng-class="{'btn-danger':odd > 10}">{{odd}}</td>
+		            			<td><span class="pull-right">Even</span></td>
+		            			<td ng-class="{'btn-danger':even > 10}">{{even}}</td>
+		            		</tr>
+		            		<tr>
+		            			<td><span class="pull-right">1-12</span></td>
+		            			<td ng-class="{'btn-danger':from1to12 > 10}">{{from1to12}}</td>
+		            			<td><span class="pull-right">13-24</span></td>
+		            			<td ng-class="{'btn-danger':from13to24 > 10}">{{from13to24}}</td>
+		            			<td><span class="pull-right">25-36</span></td>
+		            			<td ng-class="{'btn-danger':from25to36 > 10}">{{from25to36}}</td>
 		            			<td></td><td></td>
 		            		</tr>
 		            		<tr>
-		            			<td><span class="">Odd</span></td>
-		            			<td>{{odd}}</td>
-		            			<td><span class="">Even</span></td>
-		            			<td>{{even}}</td>
+		            			<td><span class="pull-right">1-34</span></td>
+		            			<td ng-class="{'btn-danger':from1to34 > 10}">{{from1to34}}</td>
+		            			<td><span class="pull-right">2-35</span></td>
+		            			<td ng-class="{'btn-danger':from2to35 > 10}">{{from2to35}}</td>
+		            			<td><span class="pull-right">3-36</span></td>
+		            			<td ng-class="{'btn-danger':from3to36 > 10}">{{from3to36}}</td>
 		            			<td></td><td></td>
 		            		</tr>
 		            		<tr>
-		            			<td><span class="">1-12</span></td>
-		            			<td>{{from1to12}}</td>
-		            			<td><span class="">13-24</span></td>
-		            			<td>{{from13to24}}</td>
-		            			<td><span class="">25-36</span></td>
-		            			<td>{{from25to36}}</td>
+		            			<td><span class="pull-right">0X</span></td>
+		            			<td ng-class="{'btn-danger':x0x > 10}">{{x0x}}</td>
+		            			<td><span class="pull-right">1X</span></td>
+		            			<td ng-class="{'btn-danger':x1x > 10}">{{x1x}}</td>
+		            			<td><span class="pull-right">2X</span></td>
+		            			<td ng-class="{'btn-danger':x2x > 10}">{{x2x}}</td>
+		            			<td><span class="pull-right">3X</span></td>
+		            			<td ng-class="{'btn-danger':x3x > 10}">{{x3x}}</td>
 		            		</tr>
 		            		<tr>
-		            			<td><span class="">1-34</span></td>
-		            			<td>{{from1to34}}</td>
-		            			<td><span class="">2-35</span></td>
-		            			<td>{{from2to35}}</td>
-		            			<td><span class="">3-36</span></td>
-		            			<td>{{from3to36}}</td>
-		            		</tr>
-		            		<tr>
-		            			<td><span class="btn form-control btn-success">Zero Spiel</span></td>
-		            			<td>{{zeroSpiel}}</td>
-		            			<td><span class="btn form-control btn-primary">Orphans</span></td>
-		            			<td>{{orphans}}</td>
-		            			<td></td><td></td>
-		            		</tr>
-		            		<tr>
-		            			<td><span class="btn form-control btn-danger">Big Series</span></td>
-		            			<td>{{bigSeries}}</td>
-		            			<td><span class="btn form-control btn-warning">Small Series</span></td>
-		            			<td>{{smallSeries}}</td>
+		            			<td><span class="pull-right">Zero</span></td>
+		            			<td ng-class="{'btn-danger':zeroSpiel > 4}">{{zeroSpiel}}</td>
+		            			<td><span class="pull-right">Small</span></td>
+		            			<td ng-class="{'btn-danger':smallSeries > 4}">{{smallSeries}}</td>
+								<td><span class="pull-right">Orphans</span></td>
+		            			<td ng-class="{'btn-danger':orphans > 4}">{{orphans}}</td>
 		            			<td></td><td></td>
 		            		</tr>
 	            		</table>
-	            		<div>Next: </div>
-	            		<div>&nbsp;Hot Numbers: </div>
 	            	</td>
             	</tr>
         	</table>

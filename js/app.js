@@ -22,7 +22,11 @@ angular.module('rs', [])
 				$scope.nextNumber(n);
 			});
 		};
-		$scope.reset = function(number){
+		
+		$scope.resetConfirm = function(){
+			$('#close').modal('show');
+		};
+		$scope.reset = function(){	
 			$scope.histories = [];
 			$scope.counts = [];
 			$scope.zero 		= 0;
@@ -48,6 +52,8 @@ angular.module('rs', [])
 			$scope.hotZeroSpiel 	= 0;
 			$scope.hotSmallSeries 	= 0;
 			$scope.hotOrphans 		= 0;
+			
+			$('#close').modal('hide');
 		};
 		$scope.reset();
 		
@@ -62,7 +68,7 @@ angular.module('rs', [])
 				return 'btn-danger';
 			}
 			else if(number.color=='black'){
-				return 'btn-black';
+				return 'btn-info';
 			}
 		};
 		
@@ -229,3 +235,7 @@ angular.module('rs', [])
 			}
 		};
 	}]);
+	
+$(window).bind('beforeunload',function(){
+    return 'Are you sure you want to leave? Histories will be gone.';
+});

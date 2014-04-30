@@ -235,7 +235,7 @@ angular.module('rs', [])
 			}
 		};
 	}]);
-	
-$(window).bind('beforeunload',function(){
+
+$(window).bind('beforeunload onbeforeunload onunload',function(){
     return 'Are you sure you want to leave? Histories will be gone.';
 });

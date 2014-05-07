@@ -49,7 +49,7 @@
 						</div>
 	            		<table class="table">
 							<tr class="danger">
-								<td><span class="pull-right">Next</span></td><td colspan="7"><span ng-repeat="n in getNexts()">{{n}}&nbsp;</span></td>
+								<td><span class="pull-right">Near</span></td><td colspan="7"><span ng-repeat="n in getNexts()">{{n}}&nbsp;</span></td>
 							</tr>
 							<tr>
 								<td><span class="pull-right">Hot</span></td>
@@ -62,11 +62,22 @@
 							<tr>
 		            			<td><span class="pull-right">Zero</span></td>
 		            			<td>{{hotZeroSpiel}}</td>
-		            			<td><span class="pull-right">Small</span></td>
-		            			<td>{{hotSmallSeries}}</td>
 								<td><span class="pull-right">Orphans</span></td>
 		            			<td>{{hotOrphans}}</td>
-		            			<td></td><td></td>
+		            			<td><span class="pull-right">Small</span></td>
+		            			<td>{{hotSmallSeries}}</td>
+		            			<td><span class="pull-right">Big</span></td>
+		            			<td>{{hotBigSeries}}</td>
+		            		</tr>
+							<tr>
+		            			<td><span class="pull-right">0x</span></td>
+		            			<td>{{hot0x}}</td>
+								<td><span class="pull-right">1x</span></td>
+		            			<td>{{hot1x}}</td>
+		            			<td><span class="pull-right">2x</span></td>
+		            			<td>{{hot2x}}</td>
+		            			<td><span class="pull-right">3x</span></td>
+		            			<td>{{hot3x}}</td>
 		            		</tr>
 							<tr class="info">
 	            				<td colspan="8" class="text-center">Cold numbers</td>
@@ -77,7 +88,7 @@
 		            			<td><span class="pull-right">Black</span></td>
 		            			<td ng-class="{'btn-danger':black > 10}">{{black}}</td>
 	            				<td><span class="pull-right">Zero</span></td>
-	            				<td ng-class="{'btn-danger':zero > 25}">{{zero}}</td>
+	            				<td ng-class="{'btn-danger':zero > 30}">{{zero}}</td>
 	            				<td></td><td></td>
 	            			</tr>
 		            		<tr>
@@ -120,12 +131,13 @@
 		            		</tr>
 		            		<tr>
 		            			<td><span class="pull-right">Zero</span></td>
-		            			<td ng-class="{'btn-danger':zeroSpiel > 4}">{{zeroSpiel}}</td>
-		            			<td><span class="pull-right">Small</span></td>
-		            			<td ng-class="{'btn-danger':smallSeries > 4}">{{smallSeries}}</td>
+		            			<td ng-class="{'btn-danger':zeroSpiel > 5}">{{zeroSpiel}}</td>
 								<td><span class="pull-right">Orphans</span></td>
-		            			<td ng-class="{'btn-danger':orphans > 4}">{{orphans}}</td>
-		            			<td></td><td></td>
+		            			<td ng-class="{'btn-danger':orphans > 5}">{{orphans}}</td>
+		            			<td><span class="pull-right">Small</span></td>
+		            			<td ng-class="{'btn-danger':smallSeries > 5}">{{smallSeries}}</td>
+		            			<td><span class="pull-right">Big</span></td>
+		            			<td ng-class="{'btn-danger':bigSeries > 5}">{{bigSeries}}</td>
 		            		</tr>
 	            		</table>
 	            	</td>
@@ -167,7 +179,7 @@
 				<input type="hidden" name="currency_code" value="SGD">
 				<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
 				">
-				<input type="image" src="https://www.paypalobjects.com/en_GB/SG/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
+				<input type="image" src="https://www.paypalobjects.com/en_GB/SG/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal ï¿½ The safer, easier way to pay online.">
 				<img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
 			</form>
 		</div>

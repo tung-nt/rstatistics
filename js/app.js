@@ -48,10 +48,16 @@ angular.module('rs', [])
 			$scope.x3x 	= 0;
 			$scope.zeroSpiel 	= 0;
 			$scope.smallSeries 	= 0;
+			$scope.bigSeries 	= 0;
 			$scope.orphans 		= 0;
 			$scope.hotZeroSpiel 	= 0;
 			$scope.hotSmallSeries 	= 0;
+			$scope.hotBigSeries 	= 0;
 			$scope.hotOrphans 		= 0;
+			$scope.hot0x		 	= 0;
+			$scope.hot1x		 	= 0;
+			$scope.hot2x		 	= 0;
+			$scope.hot3x	 		= 0;
 			
 			$('#close').modal('hide');
 		};
@@ -118,8 +124,10 @@ angular.module('rs', [])
 				$scope.x3x 	++;
 				$scope.zeroSpiel 	= 0;
 				$scope.smallSeries 	++;
+				$scope.bigSeries 	++;
 				$scope.orphans 		++;
 				$scope.hotZeroSpiel ++;
+				$scope.hot0x		++;
 				return;
 			}
 			else{
@@ -190,23 +198,28 @@ angular.module('rs', [])
 				$scope.zeroSpiel 	= 0;
 				$scope.smallSeries 	++;
 				$scope.orphans 		++;
+				$scope.bigSeries 	++;
 			}
 			else if([33,16,24,5,10,23,8,30,11,36,13,27].indexOf(number.name) > -1){
 				$scope.hotSmallSeries 	++;
 				$scope.zeroSpiel 	++;
 				$scope.smallSeries 	= 0;
 				$scope.orphans 		++;
+				$scope.bigSeries 	++;
 			}
 			else if([9,31,14,20,1,6,34,17].indexOf(number.name) > -1){
 				$scope.hotOrphans 	++;
 				$scope.zeroSpiel 	++;
 				$scope.smallSeries 	++;
+				$scope.bigSeries 	++;
 				$scope.orphans 		= 0;
 			}
-			else {
+			else if([22,18,29,7,8,19,4,21,2,25].indexOf(number.name) > -1){
+				$scope.hotBigSeries ++;
 				$scope.zeroSpiel 	++;
 				$scope.smallSeries 	++;
 				$scope.orphans 		++;
+				$scope.bigSeries 	= 0;
 			}
 			
 			if(number.name < 10){
@@ -214,28 +227,32 @@ angular.module('rs', [])
 				$scope.x1x 	++;
 				$scope.x2x 	++;
 				$scope.x3x 	++;
+				$scope.hot0x ++;
 			}
 			else if(number.name < 20){
 				$scope.x0x 	++;
 				$scope.x1x 	= 0;
 				$scope.x2x 	++;
 				$scope.x3x 	++;
+				$scope.hot1x ++;
 			}
 			else if(number.name < 30){
 				$scope.x0x 	++;
 				$scope.x1x 	++;
 				$scope.x2x 	= 0;
 				$scope.x3x 	++;
+				$scope.hot2x ++;
 			}
 			else {
 				$scope.x0x 	++;
 				$scope.x1x 	++;
 				$scope.x2x 	++;
 				$scope.x3x 	= 0;
+				$scope.hot3x ++;
 			}
 		};
 	}]);
 
 $(window).bind('beforeunload onbeforeunload onunload',function(){
-    return 'Are you sure you want to leave? Histories will be gone.';
+   // return 'Are you sure you want to leave? Histories will be gone.';
 });
